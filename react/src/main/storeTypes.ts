@@ -1,5 +1,4 @@
 import { Store } from "redux";
-import { PubnubThunkContext } from "pubnub-redux";
 import { RootState } from "./rootReducer";
 import { AppActions } from "./AppActions";
 
@@ -20,11 +19,6 @@ export interface AppDispatch {
 }
 
 /**
- * Describe thunk middleware context
- */
-export type AppThunkContext = PubnubThunkContext;
-
-/**
  * Describe a Thunk with application specific types.
  *
  * This is primarily used for describing the return value of a thunk action
@@ -34,8 +28,7 @@ export type AppThunkContext = PubnubThunkContext;
  */
 export type ThunkAction<ThunkReturn = void> = (
   dispatch: AppDispatch,
-  getState: () => AppState,
-  context: AppThunkContext
+  getState: () => AppState
 ) => ThunkReturn;
 
 /**

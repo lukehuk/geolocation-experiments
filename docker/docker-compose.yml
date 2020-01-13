@@ -1,0 +1,47 @@
+version: '3'
+services:
+  # Exposes REST APIs to interact with the Postgres Database
+  postgrest:
+    image: postgrest/postgrest
+    ports:
+      - "3001:3000"
+    links:
+      - postgis:postgis
+    environment:
+      PGRST_DB_URI: postgres://postgres:mysecretpassword@postgis:5432/pubnubdemo
+      PGRST_DB_SCHEMA: api
+      PGRST_DB_ANON_ROLE: web_anon
+    command: /bin/sh -c 'sleep 20 && exec postgrest /etc/postgrest.conf'
+    depends_on:
+      - postgis
+  # Database to store application information
+  postgis:
+    image: geographica/postgis:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWD: mysecretpassword
+    entrypoint: sh -c '(/usr/local/bin/run.sh run_default) & (sleep 10 && psql --username=postgres --dbname=postgres --command="CREATE DATABASE pubnubdemo;" -v ON_ERROR_STOP=1 && psql --username=postgres --dbname=pubnubdemo --file=//init.sql -v ON_ERROR_STOP=1) && wait'
+    volumes:
+      - ./init.sql:/init.sql
+  # UI for REST APIs if needed
+  swagger:
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    environment:
+      API_URL: http://localhost:3000/
+  # Exposes the REST APIs from the local machine to the internet
+#  ngrok:
+#    image: wernight/ngrok
+#    links:
+#      - postgrest:postgrest
+#    command: ngrok http postgrest:3000
+#    ports:
+#      - "4040:4040"
+#    expose:
+#      - "4040"
+#    depends_on:
+#      - postgrest

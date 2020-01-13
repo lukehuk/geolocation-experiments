@@ -3,7 +3,6 @@ import { AnimatedWrapper, Body } from "./MapView.style";
 import { Header } from "../Header";
 import { useSelector } from "react-redux";
 import { getPanelStates } from "features/layout/selectors";
-import { GoogleMap, Marker } from "@react-google-maps/api";
 import "./mapview.css";
 import { getMode } from "../../mode/selectors";
 import { Mode } from "../../mode/modeModel";

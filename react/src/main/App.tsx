@@ -3,7 +3,6 @@ import GlobalStyles from "main/styles/GlobalStyles";
 import Normalize from "main/styles/Normalize";
 import { ApplicationRouter } from "./Router";
 import Pubnub from "pubnub";
-import { createPubNubListener } from "pubnub-redux";
 import { PubNubProvider } from "pubnub-react";
 import { Provider } from "react-redux";
 import { createAppStore } from "main/store";
@@ -25,11 +24,7 @@ const pubnubConfig = Object.assign(
 );
 const pubnub = new Pubnub(pubnubConfig);
 
-const store = createAppStore({
-  pubnub: {
-    api: pubnub
-  }
-});
+const store = createAppStore();
 
 const onResize = () => {
   store.dispatch(resize(window.innerWidth));
@@ -43,12 +38,6 @@ const leaveApplication = () => {
 
 const App = () => {
   useEffect(() => {
-    // Start listening for messages and events from PubNub
-    pubnub.addListener(createPubNubListener(store.dispatch));
-    return leaveApplication;
-  }, []);
-
-  useEffect(() => {
     window.addEventListener("resize", onResize);
     window.addEventListener("load", onResize);
     return () => {
@@ -56,7 +45,6 @@ const App = () => {
       window.removeEventListener("load", onResize);
     };
   });
-
   useEffect(() => {
     window.addEventListener("beforeunload", leaveApplication);
   }, []);

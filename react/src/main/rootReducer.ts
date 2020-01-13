@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
 
 import { LayoutStateReducer } from "features/layout/layoutModel";
-import { AuthenticationStateReducer } from "features/authentication/authenticationModel";
 import { ModeStateReducer } from "../features/mode/modeModel";
+import { CurrentTripStateReducer } from "../features/trip/current/currentTripModel";
 
 /**
  * Combine all of the reducers in this application
@@ -10,7 +10,7 @@ import { ModeStateReducer } from "../features/mode/modeModel";
 const rootReducer = combineReducers({
   layout: LayoutStateReducer,
   mode: ModeStateReducer,
-  authentication: AuthenticationStateReducer
+  currentTrip: CurrentTripStateReducer
 });
 
 export default rootReducer;

@@ -45,7 +45,7 @@ class LogoPicker extends React.Component<IProps, IState> {
           style={inputStyle}
           onChange={this.handleKeyDown}
           value={this.state.logoUrl}
-        ></input>
+        />
       </div>
     );
   }

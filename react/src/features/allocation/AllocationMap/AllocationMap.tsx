@@ -12,17 +12,19 @@ const AllocationMap = () => {
   const generateMarkers = (iconUrl: string, numberToGen: number) => {
     let markers = [];
     for (let i = 0; i < numberToGen; i++) {
+      let position: google.maps.LatLngLiteral = {
+        lat: Math.random() / 100 + (clickedLatLng.lat - 0.005),
+        lng: Math.random() / 100 + (clickedLatLng.lng - 0.005)
+      };
       markers.push(
         <Marker
+          key={i}
           icon={{
             url: iconUrl,
-            scaledSize: { width: 30, height: 30 },
-            anchor: { x: 15, y: 15 }
+            scaledSize: new google.maps.Size(30, 30),
+            anchor: new google.maps.Point(15, 15)
           }}
-          position={{
-            lat: Math.random() / 100 + (clickedLatLng.lat - 0.005),
-            lng: Math.random() / 100 + (clickedLatLng.lng - 0.005)
-          }}
+          position={position}
         />
       );
     }

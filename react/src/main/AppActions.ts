@@ -1,12 +1,14 @@
 import {
-  setLayoutAction,
-  setBreakpointAction
+  setBreakpointAction,
+  setLayoutAction
 } from "features/layout/layoutModel";
 import { setModeAction } from "features/mode/modeModel";
 import {
-  logingInAction,
-  loginSucceededAction
-} from "features/authentication/authenticationModel";
+  setCurrentTripAction,
+  setCurrentTripDirectionsAction,
+  setCurrentTripDriverLocationAction,
+  setCurrentTripStageAction
+} from "../features/trip/current/currentTripModel";
 
 /**
  * AppActions is the union of all basic actions in this application.
@@ -22,5 +24,7 @@ export type AppActions =
   | setLayoutAction
   | setBreakpointAction
   | setModeAction
-  | logingInAction
-  | loginSucceededAction;
+  | setCurrentTripAction
+  | setCurrentTripDirectionsAction
+  | setCurrentTripStageAction
+  | setCurrentTripDriverLocationAction;

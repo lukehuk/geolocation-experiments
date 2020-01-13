@@ -1,7 +1,7 @@
-import { createStore, applyMiddleware, compose } from "redux";
+import { applyMiddleware, compose, createStore } from "redux";
 import ReduxThunk from "redux-thunk";
 import rootReducer from "./rootReducer";
-import { AppStore, AppThunkContext } from "./storeTypes";
+import { AppStore } from "./storeTypes";
 import preloadedState from "./preloadedState";
 
 // Setup Redux Dev Tools
@@ -20,10 +20,8 @@ export const composeEnhancers =
 /**
  * Create a redux store configured for this application
  */
-export const createAppStore = (thunkContext: AppThunkContext): AppStore => {
-  const storeEnhancer = composeEnhancers(
-    applyMiddleware(ReduxThunk.withExtraArgument(thunkContext))
-  );
+export const createAppStore = (): AppStore => {
+  const storeEnhancer = composeEnhancers(applyMiddleware(ReduxThunk));
 
   return createStore(rootReducer, preloadedState, storeEnhancer);
 };

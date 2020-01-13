@@ -16,6 +16,9 @@ import {
 } from "./Tools.style";
 import { getMode } from "../../mode/selectors";
 import { Mode } from "../../mode/modeModel";
+import { AllocationTools } from "../../allocation/AllocationTools/AllocationTools";
+import { TripTools } from "../../trip/TripTools/TripTools";
+import { HistoryTools } from "../../history/HistoryTools/HistoryTools";
 
 const Tools = () => {
   const dispatch = useDispatch();
@@ -23,6 +26,19 @@ const Tools = () => {
   const mode = useSelector(getMode);
   const breakpoint = useSelector(getBreakpoint);
   const Panel = breakpoint === Breakpoint.Small ? Wrapper : AnimatedWrapper;
+
+  let getTools = () => {
+    switch (mode) {
+      case Mode.Allocation:
+        return <AllocationTools />;
+      case Mode.Trip:
+        return <TripTools />;
+      case Mode.History:
+        return <HistoryTools />;
+      default:
+        return <p>~ Tools coming soon! ~</p>;
+    }
+  };
 
   return (
     <Panel pose={panels.Right ? "open" : "closed"}>
@@ -45,7 +61,7 @@ const Tools = () => {
           <CrossIcon />
         </CloseIcon>
       </Header>
-      <ScrollableView>~ Tools coming soon! ~</ScrollableView>
+      <ScrollableView>{getTools()}</ScrollableView>
     </Panel>
   );
 };
