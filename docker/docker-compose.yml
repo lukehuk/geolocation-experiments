@@ -21,9 +21,9 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_PASSWD: mysecretpassword
-    entrypoint: sh -c '(/usr/local/bin/run.sh run_default) & (sleep 10 && psql --username=postgres --dbname=postgres --command="CREATE DATABASE pubnubdemo;" -v ON_ERROR_STOP=1 && psql --username=postgres --dbname=pubnubdemo --file=//init.sql -v ON_ERROR_STOP=1) && wait'
+    entrypoint: sh -c '(/usr/local/bin/run.sh run_default) & (sleep 10 && psql --username=postgres --dbname=postgres --command="CREATE DATABASE pubnubdemo;" -v ON_ERROR_STOP=1 && psql --username=postgres --dbname=pubnubdemo --file=//init_db.sql -v ON_ERROR_STOP=1) && wait'
     volumes:
-      - ./init.sql:/init.sql
+      - ./init_db.sql:/init_db.sql
   # UI for REST APIs if needed
   swagger:
     image: swaggerapi/swagger-ui

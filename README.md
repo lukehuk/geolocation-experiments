@@ -1,44 +1,49 @@
 # geolocation-experiments
 
-docker run --name postgis -p 5432:5433 -d geographica/postgis:latest
+## Requirements
 
-5. Test function with:
-SELECT remaining_distance('551e5398-f333-4e90-b9aa-d0ca121091e5'::UUID,'4030f0a1-d670-468a-b63b-1ac2cb60ea2d'::UUID);
+* [Node.js](https://nodejs.org/en/)
+* PubNub Publish/Subscribe Keys (Free)
+* Google Maps API Key (Free) - [get here](https://developers.google.com/maps/documentation/geocoding/get-api-key)
+* Docker
 
+### PubNub Account
 
+If you don't already have an account, you can [create one for free](https://dashboard.pubnub.com/).
 
-4. Run `./postgrest tutorial.conf`
-db-uri = "host=localhost user=postgres port=5433 dbname=pubnubdemo password=mysecretpassword"
-db-schema = "api"
-db-anon-role = "web_anon"
+1. Sign in to your PubNub [Admin Dashboard](https://dashboard.pubnub.com/), click Create New App for PubNub Chat and give your app a name.
 
+1. Select your new app, then click its keyset.
 
+1. Locate the Publish and Subscribe keys. You'll need these keys to include in this project.
 
-5. Test postgrest with
-http://localhost:3000/rpc/remaining_distance?p_trip_id=551e5398-f333-4e90-b9aa-d0ca121091e5&p_user_id=4030f0a1-d670-468a-b63b-1ac2cb60ea2d
+## Building the project
 
+1. Clone the GitHub repository.
 
+    ```bash
+    git clone git@github.com:lukehuk/geolocation-experiments.git
+    ```
 
+1. Install the project.
 
-{
-	"tripId": "551e5398-f333-4e90-b9aa-d0ca121091e5",
-	"userId": "4030f0a1-d670-468a-b63b-1ac2cb60ea2d"
-}
+    ```bash
+    cd geolocation-experiments
+    npm install
+    ```
 
+1. Run init.sh script to remove any running Docker containers and start containers required for this application.
 
-export default (request) => {
-    const xhr = require("xhr");
-    const query = require('codec/query_string');
-    const query_params = {
-	    "p_trip_id": request.tripId,
-	    "p_user_id": request.userId
-    };
+    ```bash
+    cd docker
+    ./init.sh
+    ```
 
-    const url = "http://0464e192.ngrok.io/rpc/remaining_distance_json?" + query.stringify(query_params);
+1. Run the project in your local environment. You may be asked to input your PubNub keys and populate sample data if you are running the app for the first time.
 
-    return xhr.fetch(url).then((x) => {
-        const body = JSON.parse(x.body);
-		request.resultDistance = body.resultDistance;
-		return request.ok();
-	});
-};
+    ```bash
+    cd ../
+    npm start
+    ```
+
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.

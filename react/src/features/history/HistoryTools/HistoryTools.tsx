@@ -7,6 +7,8 @@ const HistoryTools = () => {
         //TODO
       }
       Show location history for driver: DROPDOWN TICKBOX - Apply smoothing?
+      <br />
+      <br />
       OnChange, update map
     </>
   );

@@ -9,7 +9,12 @@ const TripTools = () => {
 
   return (
     <>
-      Origin: Destination:
+      Origin:
+      <br />
+      <br />
+      Destination:
+      <br />
+      <br />
       <CreateTripButton
         onClick={async () => {
           let origin: google.maps.LatLngLiteral = {
