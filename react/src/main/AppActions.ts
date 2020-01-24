@@ -9,6 +9,15 @@ import {
   setCurrentTripDriverLocationAction,
   setCurrentTripStageAction
 } from "../features/trip/current/currentTripModel";
+import {
+  setHighlightedDriversAction,
+  setHighlightedPassengersAction,
+  setRefreshAllocationMapAction
+} from "../features/allocation/model/allocationModel";
+import {
+  setHistoryRefreshPageAction,
+  setHistorySelectedDriverActions
+} from "../features/history/model/historyModel";
 
 /**
  * AppActions is the union of all basic actions in this application.
@@ -24,7 +33,12 @@ export type AppActions =
   | setLayoutAction
   | setBreakpointAction
   | setModeAction
+  | setHighlightedDriversAction
+  | setHighlightedPassengersAction
+  | setRefreshAllocationMapAction
   | setCurrentTripAction
   | setCurrentTripDirectionsAction
   | setCurrentTripStageAction
-  | setCurrentTripDriverLocationAction;
+  | setCurrentTripDriverLocationAction
+  | setHistorySelectedDriverActions
+  | setHistoryRefreshPageAction;

@@ -51,12 +51,12 @@ const TripMap = () => {
       )}
       {currentTrip.directions !== null && (
         <Marker
-          animation={google.maps.Animation.BOUNCE}
+          animation={google.maps.Animation.DROP}
           position={{
             lat: currentTrip.driver.currentLocation.position.x,
             lng: currentTrip.driver.currentLocation.position.y
           }}
-          zIndex={100}
+          zIndex={999}
           icon={{
             url: currentTrip.driver.profilePicture,
             scaledSize: new google.maps.Size(30, 30),

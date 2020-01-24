@@ -3,6 +3,8 @@ import { combineReducers } from "redux";
 import { LayoutStateReducer } from "features/layout/layoutModel";
 import { ModeStateReducer } from "../features/mode/modeModel";
 import { CurrentTripStateReducer } from "../features/trip/current/currentTripModel";
+import { AllocationStateReducer } from "../features/allocation/model/allocationModel";
+import { HistoryStateReducer } from "../features/history/model/historyModel";
 
 /**
  * Combine all of the reducers in this application
@@ -10,7 +12,9 @@ import { CurrentTripStateReducer } from "../features/trip/current/currentTripMod
 const rootReducer = combineReducers({
   layout: LayoutStateReducer,
   mode: ModeStateReducer,
-  currentTrip: CurrentTripStateReducer
+  allocation: AllocationStateReducer,
+  currentTrip: CurrentTripStateReducer,
+  history: HistoryStateReducer
 });
 
 export default rootReducer;

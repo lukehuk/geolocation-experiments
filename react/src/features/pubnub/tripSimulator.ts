@@ -4,6 +4,7 @@ import {
   PubNubMessageFormat,
   PubNubMessageType
 } from "./pubnubModel";
+import _ from "lodash-es";
 
 const simulateTrip = (
   driverId: string,
@@ -13,7 +14,8 @@ const simulateTrip = (
   startTrip: () => void,
   completeTrip: () => void
 ) => {
-  const speed = 120;
+  const speed = 20;
+  const maxTime = 25;
 
   const publishMessage = (message: PubNubMessageFormat) => {
     console.log("Publishing: " + JSON.stringify(message));
@@ -46,7 +48,32 @@ const simulateTrip = (
     } else {
       setTimeout(function() {
         const [step, ...remainingSteps] = nextSteps;
-        performStep(step, remainingSteps);
+
+        if (step.duration.value > maxTime) {
+          const latDiff = step.end_location.lat() - step.start_location.lat();
+          const lngDiff = step.end_location.lng() - step.start_location.lng();
+          const stepsNeeded = step.duration.value / maxTime;
+          const latStepSize = latDiff / stepsNeeded;
+          const lngStepSize = lngDiff / stepsNeeded;
+
+          const newCurrentStep = _.cloneDeep(step);
+
+          newCurrentStep.end_location = new google.maps.LatLng(
+            step.start_location.lat() + latStepSize,
+            step.start_location.lng() + lngStepSize
+          );
+          newCurrentStep.duration.value =
+            newCurrentStep.duration.value / stepsNeeded;
+
+          const nextStep = _.cloneDeep(step);
+          nextStep.start_location = newCurrentStep.end_location;
+          nextStep.duration.value =
+            nextStep.duration.value - newCurrentStep.duration.value;
+
+          performStep(newCurrentStep, [nextStep].concat(remainingSteps));
+        } else {
+          performStep(step, remainingSteps);
+        }
       }, (currentStep.duration.value / speed) * 1000);
     }
   };

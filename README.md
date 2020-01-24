@@ -46,4 +46,4 @@ If you don't already have an account, you can [create one for free](https://dash
     npm start
     ```
 
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:3001](http://localhost:3001) to view it in the browser.

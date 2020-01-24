@@ -41,6 +41,15 @@ CREATE TABLE api.driver_location (
 	FOREIGN KEY (driver_id) REFERENCES api.driver (id)
 );
 
+CREATE OR REPLACE FUNCTION api.nearest_driver(p_passenger_id UUID)
+RETURNS UUID AS $$
+	SELECT driver_location.driver_id
+	FROM driver_location, passenger_location
+	WHERE passenger_location.passenger_id = p_passenger_id
+	ORDER BY driver_location.current_location <-> passenger_location.current_location
+	LIMIT 1
+$$ LANGUAGE SQL IMMUTABLE SET search_path = public, api;
+
 CREATE role web_anon nologin;
 GRANT web_anon TO postgres;
 

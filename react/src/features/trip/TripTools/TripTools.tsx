@@ -1,5 +1,5 @@
 import React from "react";
-import { CreateTripButton } from "../../tools/Tools/Tools.style";
+import { ToolButton } from "../../tools/Tools/Tools.style";
 import * as DatabaseCommands from "../../database/databaseCommand";
 import { setCurrentTrip } from "../current/actions";
 import { useDispatch } from "react-redux";
@@ -9,21 +9,15 @@ const TripTools = () => {
 
   return (
     <>
-      Origin:
-      <br />
-      <br />
-      Destination:
-      <br />
-      <br />
-      <CreateTripButton
+      <ToolButton
         onClick={async () => {
           let origin: google.maps.LatLngLiteral = {
-            lat: 40.756795,
-            lng: -73.954298
+            lat: 37.78809,
+            lng: -122.439767
           };
           let destination: google.maps.LatLngLiteral = {
-            lat: 41.756795,
-            lng: -78.954298
+            lat: 37.774013,
+            lng: -122.423116
           };
           let tripDetails = await DatabaseCommands.createTrip(
             { x: origin.lat, y: origin.lng },
@@ -52,7 +46,7 @@ const TripTools = () => {
         }}
       >
         Create Trip
-      </CreateTripButton>
+      </ToolButton>
     </>
   );
 };

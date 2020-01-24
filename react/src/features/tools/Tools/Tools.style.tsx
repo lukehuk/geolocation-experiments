@@ -43,15 +43,24 @@ export const CloseIcon = styled.span`
   }
 `;
 
-export const CreateTripButton = styled.div`
+export const ToolButton = styled.div`
   background-color: #4caf50; /* Green */
   border: none;
+  border-radius: 5px;
   color: white;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  display: block;
   font-size: 16px;
+  margin: 0px 10px;
+  cursor: pointer;
+`;
+
+export const ToolsDropdown = styled.select`
+  font-size: 16px;
+  display: block;
+  margin: 0px auto;
 `;
 
 export const ScrollableView = styled.span`

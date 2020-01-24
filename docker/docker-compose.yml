@@ -4,7 +4,7 @@ services:
   postgrest:
     image: postgrest/postgrest
     ports:
-      - "3001:3000"
+      - "3000:3000"
     links:
       - postgis:postgis
     environment:
@@ -33,7 +33,7 @@ services:
       - "8080"
     environment:
       API_URL: http://localhost:3000/
-  # Exposes the REST APIs from the local machine to the internet
+# Exposes the REST APIs from the local machine to the internet
 #  ngrok:
 #    image: wernight/ngrok
 #    links:

@@ -15,8 +15,10 @@
 		"@types/react-redux": "^7.1.2",
 		"@types/styled-components": "^4.1.19",
 		"@types/googlemaps": "^3.39.0",
+		"@types/lodash-es": "^4.17.3",
 		"emoji-mart": "^2.11.1",
 		"polished": "^3.4.1",
+		"lodash-es": "^4.17.15",
 		"pubnub": "^4.27.0",
 		"pubnub-react": "^2.0.0-beta.4",
 		"react": "^16.9.0",
@@ -32,9 +34,9 @@
 		"uuid": "3.3.3"
 	},
 	"scripts": {
-		"start": "node setup/populate.js --quick-test && react-scripts start",
-		"build": "node setup/populate.js --quick-test && react-scripts build",
-		"test": "node setup/populate.js --quick-test && react-scripts test",
+		"start": "node setup/populate.js --quick-test && set PORT=3001 && react-scripts start",
+		"build": "node setup/populate.js --quick-test && set PORT=3001 && react-scripts build",
+		"test": "node setup/populate.js --quick-test && set PORT=3001 && react-scripts test",
 		"setup": "node setup/populate.js"
 	},
 	"eslintConfig": {

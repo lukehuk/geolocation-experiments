@@ -18,6 +18,7 @@ import { getMode } from "../../mode/selectors";
 import { ThemeProvider } from "styled-components";
 import { Mode } from "../../mode/modeModel";
 import { ToolButton } from "../ToolButton";
+import { setRefreshAllocationMap } from "../../allocation/model/allocationModel";
 
 export interface ConversationDescriptionFragment {
   id: string;
@@ -39,6 +40,7 @@ const Header = () => {
             <Name
               onClick={() => {
                 dispatch(setModeAllocation());
+                dispatch(setRefreshAllocationMap(true));
               }}
             >
               Allocation
