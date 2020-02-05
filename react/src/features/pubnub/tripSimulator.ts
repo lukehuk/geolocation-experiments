@@ -5,6 +5,9 @@ import {
   PubNubMessageType
 } from "./pubnubModel";
 import _ from "lodash-es";
+import { PubSubClient } from "../../foundations/pubnubGrpc/PubnubServiceClientPb";
+import { Message } from "../../foundations/pubnubGrpc/pubnub_pb";
+import { Value } from "google-protobuf/google/protobuf/struct_pb";
 
 const simulateTrip = (
   driverId: string,
@@ -21,7 +24,25 @@ const simulateTrip = (
     console.log("Publishing: " + JSON.stringify(message));
     pubnubClient.publish({
       channel: channels[0],
-      message
+      message: message
+    });
+
+    let pubSubClient = new PubSubClient(
+      "pubnub-arke.prd-eks-bom-1.prd-eks.ps.pn:80",
+      {
+        pubkey: "demo-36",
+        subkey: "demo-36"
+      }
+    );
+    let pubsubClientMessage = new Message();
+    let value = new Value();
+    value.setStringValue(JSON.stringify(message));
+    pubsubClientMessage.setChannel("demo");
+    pubsubClientMessage.setData(value);
+    pubSubClient.publish(pubsubClientMessage, {}, (err, rest) => {
+      if (err) {
+        console.log("ERROR: " + JSON.stringify(err));
+      }
     });
   };
 

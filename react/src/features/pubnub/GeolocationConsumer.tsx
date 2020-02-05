@@ -10,6 +10,8 @@ import {
   PubNubMessageFormat,
   PubNubMessageType
 } from "./pubnubModel";
+import { PubSubClient } from "../../foundations/pubnubGrpc/PubnubServiceClientPb";
+import * as pubnub_types_pb from "../../foundations/pubnubGrpc/pubnub.types_pb";
 
 const GeolocationConsumer = () => {
   const dispatch = useDispatch();
@@ -45,6 +47,26 @@ const GeolocationConsumer = () => {
     setMessages(tailMessages);
   }
 
+  let makeConsumer = () => {
+    let pubSubClient = new PubSubClient(
+      "pubnub-arke.prd-eks-bom-1.prd-eks.ps.pn:80",
+      {
+        pubkey: "demo-36",
+        subkey: "demo-36"
+      }
+    );
+
+    let subscription = new pubnub_types_pb.Subscription();
+    subscription.setChannel("demo");
+    const messageClientReadableStream = pubSubClient.subscribe(subscription);
+    messageClientReadableStream.on("error", error => {
+      console.log("Error: " + JSON.stringify(error));
+    });
+    messageClientReadableStream.on("data", message => {
+      console.log("Received message: " + JSON.stringify(message));
+    });
+  };
+
   return (
     <>
       {!consuming && (
@@ -63,6 +85,7 @@ const GeolocationConsumer = () => {
           }}
         />
       )}
+      {!consuming && makeConsumer()}
     </>
   );
 };
