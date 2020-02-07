@@ -22,7 +22,6 @@ try {
     }
 } catch (e) {
     addKeysAndStartScript() //in case of non-existing keys file
-    // checkPubNubFunctionsExist() //If the key file exists, we will assume the functions have already been created
 }
 
 function addKeysAndStartScript() {
@@ -59,97 +58,3 @@ function addKeysAndStartScript() {
         })
     })
 }
-
-function checkPubNubFunctionsExist() {
-    console.log('\n***  PubNub Functions required. ***')
-    console.log('\nA specific set of PubNub functions PubNub are required for this application to work.')
-    console.log('These can be created automatically but you will need to enter your PubNub account email, password and key id for the key set added previously.')
-    console.log('Please also note that if the account used SSO to register with PubNub this process will not ne possible.')
-    console.log('\n')
-    rl.question("\nWould you like to automatically create the required PubNub Functions? (y/n): ", continueResponse => {
-        if (continueResponse !== "y") {
-            return
-        }
-        rl.question("\nPlease enter your PubNub account email: ", email => {
-            rl.question("\nPlease enter your PubNub account password: ", password => {
-                rl.question("\nPlease enter your PubNub key id: ", keyId => {
-                    const token = getSessionToken(email, password)
-                    createModule(token, keyId)
-                })
-            })
-        })
-    })
-}
-
-function getSessionToken(email, password) {
-    const xhr = new XMLHttpRequest()
-    const url = "https://admin.pubnub.com/api/me"
-    xhr.open("POST", url, true)
-    xhr.setRequestHeader("Content-Type", "application/json")
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            const json = JSON.parse(xhr.responseText)
-            return json.result.token
-        }
-    }
-    const data = JSON.stringify({ "email": email, "password": password })
-    xhr.send(data)
-}
-
-function createModule(token, keyId) {
-    const xhr = new XMLHttpRequest()
-    const url = "https://admin.pubnub.com/api/v1/blocks/key/" + keyId + "/block"
-    xhr.open("POST", url, true)
-    xhr.setRequestHeader("Content-Type", "application/json")
-    xhr.setRequestHeader("X-Session-Token", token)
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            const json = JSON.parse(xhr.responseText)
-            const moduleId = json.payload.id
-            createFunctions(token, keyId, moduleId)
-        }
-    }
-    const data = JSON.stringify({ "key_id": keyId, "name": "Geolocation Demo", "description": "Module containing geolocation demo functions" })
-    xhr.send(data)
-}
-
-function createFunctions(token, keyId, moduleId) {
-    //TODO
-    for (let i = 0; i < 0; i++) {
-        //For each function we want to generate
-        const functionCode = ""
-        createFunction(token, keyId, moduleId, functionCode)
-    }
-}
-
-function createFunction(token, keyId, moduleId, functionCode) {
-    const xhr = new XMLHttpRequest()
-    const url = "https://admin.pubnub.com/api/v1/blocks/key/" + keyId + "/block"
-    xhr.open("POST", url, true)
-    xhr.setRequestHeader("Content-Type", "application/json")
-    xhr.setRequestHeader("X-Session-Token", token)
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            const json = JSON.parse(xhr.responseText)
-            const moduleId = json.payload.id
-            createFunctions(moduleId)
-        }
-    }
-    const data = JSON.stringify(
-        {
-            "type": "on-rest",
-            "key_id": keyId,
-            "block_id": moduleId,
-            "channels": "eventHandlerChannel",
-            "code": functionCode,
-            "event": "js-on-rest",
-            "log_level": "debug",
-            "name": "on-rest-eventHandlerName",
-            "path": "some/path/here",
-            "output": "output-0.5823105682419438"
-        }
-    )
-    xhr.send(data)
-}
-
-// PUT https://admin.pubnub.com/api/vault/<subscribe_key>/key/<key_name>
