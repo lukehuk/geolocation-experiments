@@ -16,6 +16,7 @@ const defaultMapCenter = {
 
 interface loc {
   entityId: string;
+  entityName: string;
   iconUrl: string;
   position: google.maps.LatLngLiteral;
 }
@@ -34,6 +35,7 @@ const AllocationMap = () => {
         animation={
           highlight ? google.maps.Animation.BOUNCE : google.maps.Animation.DROP
         }
+        title={location.entityName}
         icon={{
           url: location.iconUrl,
           scaledSize: new google.maps.Size(30, 30),
@@ -51,6 +53,7 @@ const AllocationMap = () => {
     console.log(JSON.stringify(entityLocation));
     return {
       entityId: entityLocation.id,
+      entityName: entityLocation.name,
       iconUrl: url,
       position: {
         lat: entityLocation.position.x,

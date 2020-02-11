@@ -186,6 +186,7 @@ export const getDrivers = async (): Promise<DriverDetails[]> => {
 
 export interface EntityLocation {
   id: string;
+  name: string;
   position: Point;
 }
 
@@ -225,9 +226,9 @@ export const getDriverLocationHistory = async (
 };
 
 export const getLastDriverLocation = async (
-  driverId: string
+  driver: DriverDetails
 ): Promise<EntityLocation> => {
-  return getDriverLocationHistoryWithLimit(driverId, 1).then(
+  return getDriverLocationHistoryWithLimit(driver.id, 1).then(
     result => {
       if (result.length !== 1) {
         return Promise.reject("Driver location not found");
@@ -235,7 +236,8 @@ export const getLastDriverLocation = async (
       console.log(result);
       let position = result[0].current_location.slice(1, -1).split(",");
       return {
-        id: result[0].driver_id,
+        id: driver.id,
+        name: driver.name,
         position: {
           x: parseFloat(position[0]),
           y: parseFloat(position[1])
@@ -250,13 +252,13 @@ export const getLastDriverLocation = async (
 };
 
 export const getLastPassengerLocation = async (
-  passengerId: string
+  passenger: PassengerDetails
 ): Promise<EntityLocation> => {
   return callEndpoint(
     "GET",
     host + ":" + port + "/passenger_location",
     {
-      passenger_id: "eq." + passengerId,
+      passenger_id: "eq." + passenger.id,
       limit: 1,
       order: "timetoken.desc"
     },
@@ -271,7 +273,8 @@ export const getLastPassengerLocation = async (
         console.log(result);
         let position = result[0].current_location.slice(1, -1).split(",");
         return {
-          id: result[0].passenger_id,
+          id: passenger.id,
+          name: passenger.name,
           position: {
             x: parseFloat(position[0]),
             y: parseFloat(position[1])
@@ -287,13 +290,15 @@ export const getLastPassengerLocation = async (
 
 export const getLastKnownDriverLocations = async (): Promise<EntityLocation[]> => {
   return getDrivers().then(drivers =>
-    Promise.all(drivers.map(driver => getLastDriverLocation(driver.id)))
+    Promise.all(drivers.map(driver => getLastDriverLocation(driver)))
   );
 };
 
 export const getLastKnownPassengerLocations = async (): Promise<EntityLocation[]> => {
-  return getPassengers().then(drivers =>
-    Promise.all(drivers.map(driver => getLastPassengerLocation(driver.id)))
+  return getPassengers().then(passengers =>
+    Promise.all(
+      passengers.map(passenger => getLastPassengerLocation(passenger))
+    )
   );
 };
 

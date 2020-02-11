@@ -57,6 +57,7 @@ const TripMap = () => {
             lng: currentTrip.driver.currentLocation.position.y
           }}
           zIndex={999}
+          title={currentTrip.driver.name}
           icon={{
             url: currentTrip.driver.profilePicture,
             scaledSize: new google.maps.Size(30, 30),
