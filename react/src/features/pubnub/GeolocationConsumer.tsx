@@ -10,7 +10,7 @@ import {
   PubNubMessageFormat,
   PubNubMessageType
 } from "./pubnubModel";
-import { PubSubClient } from "../../foundations/pubnubGrpc/PubnubServiceClientPb";
+import { DriverTrackingClient } from "../../foundations/pubnubGrpc/pubnub.tracking_grpc_web_pb";
 import * as pubnub_types_pb from "../../foundations/pubnubGrpc/pubnub.types_pb";
 
 const GeolocationConsumer = () => {
@@ -48,21 +48,25 @@ const GeolocationConsumer = () => {
   }
 
   let makeConsumer = () => {
-    let pubSubClient = new PubSubClient(
-      "pubnub-arke.prd-eks-bom-1.prd-eks.ps.pn:80",
+    let pubSubClient = new DriverTrackingClient(
+      "http://localhost:9900",
       {
         pubkey: "demo-36",
         subkey: "demo-36"
-      }
+      },
+      {}
     );
 
     let subscription = new pubnub_types_pb.Subscription();
     subscription.setChannel("demo");
-    const messageClientReadableStream = pubSubClient.subscribe(subscription);
-    messageClientReadableStream.on("error", error => {
+    const messageClientReadableStream = pubSubClient.subscribe(
+      subscription,
+      null
+    );
+    messageClientReadableStream.on("error", (error: any) => {
       console.log("Error: " + JSON.stringify(error));
     });
-    messageClientReadableStream.on("data", message => {
+    messageClientReadableStream.on("data", (message: any) => {
       console.log("Received message: " + JSON.stringify(message));
     });
   };

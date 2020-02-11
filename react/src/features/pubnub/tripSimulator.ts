@@ -5,8 +5,8 @@ import {
   PubNubMessageType
 } from "./pubnubModel";
 import _ from "lodash-es";
-import { PubSubClient } from "../../foundations/pubnubGrpc/PubnubServiceClientPb";
-import { Message } from "../../foundations/pubnubGrpc/pubnub_pb";
+import { PubSubClient } from "../../foundations/pubnubGrpc/pubnub_grpc_web_pb";
+import { DriverTrackingMessage } from "../../foundations/pubnubGrpc/pubnub.tracking_pb";
 import { Value } from "google-protobuf/google/protobuf/struct_pb";
 
 const simulateTrip = (
@@ -28,13 +28,14 @@ const simulateTrip = (
     });
 
     let pubSubClient = new PubSubClient(
-      "pubnub-arke.prd-eks-bom-1.prd-eks.ps.pn:80",
+      "http://localhost:9900",
       {
         pubkey: "demo-36",
         subkey: "demo-36"
-      }
+      },
+      {}
     );
-    let pubsubClientMessage = new Message();
+    let pubsubClientMessage = new DriverTrackingMessage();
     let value = new Value();
     value.setStringValue(JSON.stringify(message));
     pubsubClientMessage.setChannel("demo");

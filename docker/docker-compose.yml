@@ -42,6 +42,13 @@ services:
 #      LICENSE_KEY: ${LICENSE_KEY}
       LICENSE_KEY: 'BGQxNTgwYzY0ZDBmMzQzYTVhYWNlY2I1NWI3Njc3Y2QzAAAAAAAAAAAEAAAAAAAAAAwwNgIZALAo3pAkXtyqWy0zufQZYph8AT4etu3ujwIZAPvcOSKrPfAOEkjoTaawwt0TZU/B86NKNQ=='
       START_AFTER_INIT: 'Y'
+  envoy:
+    image: 'envoyproxy/envoy:latest'
+    volumes:
+      - ./envoy.yaml:/etc/envoy.yaml
+    ports:
+      - 9900:9900
+      - 9901:9901
 # Exposes the REST APIs from the local machine to the internet
 #  ngrok:
 #    image: wernight/ngrok
