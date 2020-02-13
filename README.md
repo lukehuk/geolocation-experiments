@@ -28,7 +28,7 @@ If you don't already have an account, you can [create one for free](https://dash
 1. Install the project.
 
     ```bash
-    cd geolocation-experiments
+    cd geolocation-experiments/react
     npm install
     ```
 
