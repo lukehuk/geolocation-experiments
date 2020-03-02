@@ -36,6 +36,7 @@ const TripTools = () => {
                     .getTime()
                     .toString()
                     .padEnd(17, "0"), //PubNub timestamps are 17 digits
+                  id: tripDetails.driver.id,
                   position: { x: origin.lat, y: origin.lng }
                 }
               },

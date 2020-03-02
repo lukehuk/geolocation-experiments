@@ -9,6 +9,7 @@ import { Mode } from "../../mode/modeModel";
 import { AllocationMap } from "../../allocation/AllocationMap/AllocationMap";
 import { TripMap } from "../../trip/TripMap/TripMap";
 import { HistoryMap } from "../../history/HistoryMap/HistoryMap";
+import { LiveLocationMap } from "../../liveLocation/LiveLocationMap/LiveLocationMap";
 
 const MapView = () => {
   const panels = useSelector(getPanelStates);
@@ -16,6 +17,8 @@ const MapView = () => {
 
   const getMap = () => {
     switch (mode) {
+      case Mode.LiveLocation:
+        return <LiveLocationMap />;
       case Mode.Allocation:
         return <AllocationMap />;
       case Mode.Trip:

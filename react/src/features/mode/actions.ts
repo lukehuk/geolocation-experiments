@@ -1,5 +1,9 @@
 import { Mode, setMode } from "./modeModel";
 
+export function setModeLiveLocation() {
+  return setMode(Mode.LiveLocation);
+}
+
 export function setModeAllocation() {
   return setMode(Mode.Allocation);
 }

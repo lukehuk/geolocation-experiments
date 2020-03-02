@@ -5,6 +5,7 @@ import { ModeStateReducer } from "../features/mode/modeModel";
 import { CurrentTripStateReducer } from "../features/trip/current/currentTripModel";
 import { AllocationStateReducer } from "../features/allocation/model/allocationModel";
 import { HistoryStateReducer } from "../features/history/model/historyModel";
+import { LiveLocationStateReducer } from "../features/liveLocation/model/liveLocationModel";
 
 /**
  * Combine all of the reducers in this application
@@ -12,6 +13,7 @@ import { HistoryStateReducer } from "../features/history/model/historyModel";
 const rootReducer = combineReducers({
   layout: LayoutStateReducer,
   mode: ModeStateReducer,
+  liveLocation: LiveLocationStateReducer,
   allocation: AllocationStateReducer,
   currentTrip: CurrentTripStateReducer,
   history: HistoryStateReducer

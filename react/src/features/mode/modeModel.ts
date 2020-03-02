@@ -1,6 +1,7 @@
 import { AppActions } from "main/AppActions";
 
 export enum Mode {
+  LiveLocation,
   Allocation,
   Trip,
   History

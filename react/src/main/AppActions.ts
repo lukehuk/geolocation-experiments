@@ -18,6 +18,10 @@ import {
   setHistoryRefreshPageAction,
   setHistorySelectedDriverActions
 } from "../features/history/model/historyModel";
+import {
+  setLiveDriverLocationAction,
+  setRefreshLiveLocationMapAction
+} from "../features/liveLocation/model/liveLocationModel";
 
 /**
  * AppActions is the union of all basic actions in this application.
@@ -33,6 +37,8 @@ export type AppActions =
   | setLayoutAction
   | setBreakpointAction
   | setModeAction
+  | setLiveDriverLocationAction
+  | setRefreshLiveLocationMapAction
   | setHighlightedDriversAction
   | setHighlightedPassengersAction
   | setRefreshAllocationMapAction

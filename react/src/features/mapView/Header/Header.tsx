@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setModeAllocation,
   setModeHistory,
+  setModeLiveLocation,
   setModeTrip
 } from "features/mode/actions";
 import {
@@ -19,6 +20,7 @@ import { ThemeProvider } from "styled-components";
 import { Mode } from "../../mode/modeModel";
 import { ToolButton } from "../ToolButton";
 import { setRefreshAllocationMap } from "../../allocation/model/allocationModel";
+import { setRefreshLiveLocationMap } from "../../liveLocation/model/liveLocationModel";
 
 export interface ConversationDescriptionFragment {
   id: string;
@@ -36,6 +38,17 @@ const Header = () => {
           <Name>Geolocation Demo</Name>
         </Title>
         <ModeList>
+          <ThemeProvider theme={{ selected: mode === Mode.LiveLocation }}>
+            <Name
+              onClick={() => {
+                dispatch(setModeLiveLocation());
+                dispatch(setRefreshLiveLocationMap(true));
+              }}
+            >
+              Live Location
+            </Name>
+          </ThemeProvider>
+          <Spacer>|</Spacer>
           <ThemeProvider theme={{ selected: mode === Mode.Allocation }}>
             <Name
               onClick={() => {

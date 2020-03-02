@@ -10,9 +10,13 @@ import {
   PubNubMessageFormat,
   PubNubMessageType
 } from "./pubnubModel";
+import { getMode } from "../mode/selectors";
+import { Mode } from "../mode/modeModel";
+import { setLiveDriverLocation } from "../liveLocation/model/liveLocationModel";
 
 const GeolocationConsumer = () => {
   const dispatch = useDispatch();
+  const mode = useSelector(getMode);
   const currentTrip = useSelector(getCurrentTrip);
 
   let handleMessage = (message: PubNubMessageFormat, timetoken: string) => {
@@ -27,11 +31,29 @@ const GeolocationConsumer = () => {
           dispatch(
             setCurrentTripDriverLocation({
               timetoken,
+              id: message.body.driverId,
               position: message.body.location
             })
           );
         }
       }
+    } else if (message.type === PubNubMessageType.LIVE_LOCATION) {
+      if (mode === Mode.LiveLocation) {
+        dispatch(
+          setLiveDriverLocation({
+            timetoken,
+            id: message.body.driverId,
+            position: message.body.location
+          })
+        );
+      }
+      //TODO hook up to datastore
+
+      // recordDriverLocation(
+      //   message.body.driverId,
+      //   timetoken,
+      //   message.body.location
+      // );
     }
   };
 

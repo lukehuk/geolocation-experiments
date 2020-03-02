@@ -74,6 +74,7 @@ export type GoogleMapsLocation =
 
 export interface DriverLocation {
   timetoken: string;
+  id: string;
   position: Point;
 }
 
@@ -122,6 +123,7 @@ const initialState: CurrentTripState = {
       profilePicture: "",
       currentLocation: {
         timetoken: "",
+        id: "",
         position: {
           x: 0,
           y: 0
