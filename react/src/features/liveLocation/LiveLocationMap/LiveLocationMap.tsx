@@ -54,6 +54,11 @@ const LiveLocationMap = () => {
         animation={google.maps.Animation.DROP}
         position={location}
         title={"Driver " + driverId}
+        icon={{
+          url: process.env.PUBLIC_URL + "/driverIcon.png",
+          scaledSize: new google.maps.Size(30, 30),
+          anchor: new google.maps.Point(15, 15)
+        }}
       />
     );
   };
